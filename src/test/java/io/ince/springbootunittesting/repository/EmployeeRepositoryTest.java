@@ -54,7 +54,7 @@ class EmployeeRepositoryTest {
 
     @DisplayName("Find All Employees Operation")
     @Test
-    void givenEmployeeList_whenFindAll_thenEmployeeList() {
+    void givenEmployeeList_whenFindAll_thenReturnEmployeeList() {
         // given - precondition or setup
         List<Employee> employees = new ArrayList<>();
         employees.add(employee1);
@@ -67,5 +67,19 @@ class EmployeeRepositoryTest {
         // then - verify the output
         assertThat(savedEmployeeList).isNotNull();
         assertThat(savedEmployeeList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("Find Employee By Id Operation")
+    @Test
+    void givenEmployee_whenFindById_thenReturnEmployee() {
+        // given - precondition or setup
+        Employee employee = employee1;
+        employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going test
+        Employee dBEmployee = employeeRepository.findById(employee.getId()).get();
+
+        // then - verify the output
+        assertThat(dBEmployee).isNotNull();
     }
 }
