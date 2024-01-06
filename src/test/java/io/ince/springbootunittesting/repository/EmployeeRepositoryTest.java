@@ -82,4 +82,18 @@ class EmployeeRepositoryTest {
         // then - verify the output
         assertThat(dBEmployee).isNotNull();
     }
+
+    @DisplayName("Find Employee By Email")
+    @Test
+    void givenEmployeeEmail_whenFindEmail_thenReturnEmployeeObject() {
+        // given - precondition or setup
+        Employee employee = employee1;
+        employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going test
+        Employee employeeDB = employeeRepository.findByEmail(employee.getEmail()).get();
+
+        // then - verify the output
+        assertThat(employeeDB).isNotNull();
+    }
 }
