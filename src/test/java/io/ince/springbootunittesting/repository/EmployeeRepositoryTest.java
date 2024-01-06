@@ -100,6 +100,18 @@ class EmployeeRepositoryTest {
     @DisplayName("Description")
     @Test
     void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
-        
+        // given - precondition or setup
+        Employee employee = employee1;
+        employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going test
+        Employee savedEmployee = employeeRepository.findById(employee.getId()).get();
+        savedEmployee.setEmail("test@test.com");
+        savedEmployee.setFirstName("Mauro Emanuel");
+        Employee updatedEmployee = employeeRepository.save(savedEmployee);
+
+        // then - verify the output
+        assertThat(updatedEmployee.getEmail()).isEqualTo("test@test.com");
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("Mauro Emanuel");
     }
 }
