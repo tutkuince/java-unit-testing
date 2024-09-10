@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,7 @@ class EmployeeRepositoryTest {
 
     @DisplayName("Junit test for save employee operation")
     @Test
-    void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
+    void givenEmployeeObject_whenSave_thenReturnSavedEmployeeObject() {
         // given - precondition or setup
         Employee employee = Employee.builder()
                 .name("Tutku")
@@ -36,7 +37,7 @@ class EmployeeRepositoryTest {
 
     @DisplayName("Junit test for get all employees operation")
     @Test
-    void givenEmployeesList_whenFindAll_testEmployeeList() {
+    void givenEmployeesList_whenFindAll_thenReturnEmployeeList() {
         // given - precondition or setup
         Employee employee1 = Employee.builder()
                 .name("Tutku")
@@ -59,5 +60,24 @@ class EmployeeRepositoryTest {
         // then - verify the output
         assertThat(employeeList).isNotNull();
         assertThat(employeeList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("Junit test for get employee by id operation")
+    @Test
+    void givenEmployeeObject_whenFindById_thenReturnEmployeeObject() {
+        // given - precondition or setup
+        Employee employee = Employee.builder()
+                .name("Tutku")
+                .surname("Ince")
+                .email("ti@mail.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going to test
+        Optional<Employee> employeeFromDB = employeeRepository.findById(employee.getId());
+
+        // then - verify the output
+        assertThat(employeeFromDB).isNotNull();
     }
 }
