@@ -59,6 +59,7 @@ class EmployeeRepositoryTest {
 
         // then - verify the output
         assertThat(employeeList).isNotNull();
+        assertThat(employeeList).isNotNull();
         assertThat(employeeList.size()).isEqualTo(2);
     }
 
@@ -78,6 +79,29 @@ class EmployeeRepositoryTest {
         Optional<Employee> employeeFromDB = employeeRepository.findById(employee.getId());
 
         // then - verify the output
+        assertThat(employeeFromDB.isPresent()).isTrue();
+        assertThat(employeeFromDB.get()).isNotNull();
         assertThat(employeeFromDB).isNotNull();
+    }
+
+    @DisplayName("Junit test for get employee by email operation")
+    @Test
+    void givenEmployeeEmail_whenFindByEmail_thenReturnEmployeeObject() {
+        // given - precondition or setup
+        Employee employee = Employee.builder()
+                .name("Tutku")
+                .surname("Ince")
+                .email("ti@mail.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going to test
+        Optional<Employee> byEmail = employeeRepository.findByEmail(employee.getEmail());
+
+        // then - verify the output
+        assertThat(byEmail.isPresent()).isTrue();
+        assertThat(byEmail).isNotNull();
+        assertThat(byEmail.get()).isNotNull();
     }
 }
