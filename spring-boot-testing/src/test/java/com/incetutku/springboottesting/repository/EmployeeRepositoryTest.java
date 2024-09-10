@@ -166,4 +166,26 @@ class EmployeeRepositoryTest {
         assertThat(savedEmployee.getName()).isEqualTo(name);
         assertThat(savedEmployee.getSurname()).isEqualTo(surname);
     }
+
+    @DisplayName("JUnit test for Custom Query using JPQL with named params")
+    @Test
+    void givenNameAndSurname_whenFindByJPQLNamedParams_thenReturnEmployeeObject() {
+        // given - precondition or setup
+        Employee employee = Employee.builder()
+                .name("Tutku")
+                .surname("Ince")
+                .email("ti@mail.com")
+                .build();
+        employeeRepository.save(employee);
+        String name = "Tutku";
+        String surname = "Ince";
+
+        // when - action or the behaviour that we are going to test
+        Employee savedEmployee = employeeRepository.findByJPQLNamedParams(name, surname);
+
+        // then - verify the output
+        assertThat(savedEmployee).isNotNull();
+        assertThat(savedEmployee.getName()).isEqualTo(name);
+        assertThat(savedEmployee.getSurname()).isEqualTo(surname);
+    }
 }
