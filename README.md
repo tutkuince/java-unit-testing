@@ -5,6 +5,9 @@
 The purpose is to validate that each unit of the software code performs as expected
 **Unit** may be an individiual function, method, procedure, module and object
 
+#### Unit Testing Repository Layer
+Spring Boot provides the **@DataJpaTest** annotation to test the persistence layer components that will autoconfigure in-memory embedded database for testing purposes.
+
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved.
 Basically, we write integration tests for testing a feature which may involve interaction with multiple components. 
