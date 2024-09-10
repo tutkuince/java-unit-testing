@@ -6,9 +6,9 @@ The purpose is to validate that each unit of the software code performs as expec
 **Unit** may be an individiual function, method, procedure, module and object
 
 #### Unit Testing Repository Layer
-Spring Boot provides the **@DataJpaTest** annotation to test the persistence layer components that will autoconfigure in-memory embedded database for testing purposes.
-By default, it scans for **@Entity** classes and configures Spring Data JPA repositories annotated with **@Repository** annotation.
-By default, tests annotated with **@DataJpaTest** are transactional and roll back at the end of each test.
+Spring Boot provides the **@DataJpaTest** annotation to test the persistence layer components that will autoconfigure in-memory embedded database for testing purposes. <br/>
+By default, it scans for **@Entity** classes and configures Spring Data JPA repositories annotated with **@Repository** annotation. <br/>
+By default, tests annotated with **@DataJpaTest** are transactional and roll back at the end of each test. <br/>
 
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved.
