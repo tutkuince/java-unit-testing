@@ -1,8 +1,10 @@
 package com.incetutku.springboottesting.service;
 
+import com.incetutku.springboottesting.exception.ResourceNotFoundException;
 import com.incetutku.springboottesting.model.Employee;
 import com.incetutku.springboottesting.repository.EmployeeRepository;
 import com.incetutku.springboottesting.service.impl.EmployeeServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
@@ -51,5 +57,19 @@ class EmployeeServiceTest {
 
         // then - verify the output
         assertThat(savedEmployee).isNotNull();
+    }
+
+    @DisplayName("JUnit test for saveEmployee method which throws Exception")
+    @Test
+    void givenExistingEmail_whenSaveEmployee_thenThrowsResourceNotFoundException() {
+        // given - precondition or setup
+        given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.of(employee));
+        // given(employeeRepository.save(employee)).willReturn(employee); -> unnecessary
+
+        // when - action or the behaviour that we are going to test
+        assertThrows(ResourceNotFoundException.class, () -> employeeService.saveEmployee(employee));
+
+        // then - verify the output
+        verify(employeeRepository, never()).save(any(Employee.class));
     }
 }
