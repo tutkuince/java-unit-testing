@@ -137,4 +137,23 @@ class EmployeeServiceTest {
         // then - verify the output
         assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(0L));
     }
+
+    @DisplayName("JUnit test for updateEmployee method")
+    @Test
+    void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdateEmployeeObject() {
+        // given - precondition or setup
+        given(employeeRepository.save(employee)).willReturn(employee);
+        String mail = "tutku@mail.com";
+        employee.setEmail(mail);
+        String surname = "INCE";
+        employee.setSurname(surname);
+
+        // when - action or the behaviour that we are going to test
+        Employee updateEmployee = employeeService.updateEmployee(employee);
+
+        // then - verify the output
+        assertThat(updateEmployee).isNotNull();
+        assertThat(updateEmployee.getEmail()).isEqualTo(mail);
+        assertThat(updateEmployee.getSurname()).isEqualTo(surname);
+    }
 }
