@@ -121,10 +121,20 @@ class EmployeeServiceTest {
         given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
         // when - action or the behaviour that we are going to test
-        Optional<Employee> optionalEmployee = employeeService.getEmployeeById(1L);
+        Employee employeeById = employeeService.getEmployeeById(1L);
 
         // then - verify the output
-        assertThat(optionalEmployee).isNotNull();
-        assertThat(optionalEmployee).isPresent();
+        assertThat(employeeById).isNotNull();
+    }
+
+    @DisplayName("Junit test for getEmployeeById method which throws exception")
+    @Test
+    void givenNotExistingEmployeeId_whenGetEmployeeById_thenThrowsResourceNotFoundException() {
+        // given - precondition or setup
+        given(employeeRepository.findById(0L)).willReturn(Optional.empty());
+
+        // when - action or the behaviour that we are going to test
+        // then - verify the output
+        assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(0L));
     }
 }
