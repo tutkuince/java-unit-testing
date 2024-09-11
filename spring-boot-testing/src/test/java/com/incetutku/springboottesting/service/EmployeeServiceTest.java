@@ -4,7 +4,6 @@ import com.incetutku.springboottesting.exception.ResourceNotFoundException;
 import com.incetutku.springboottesting.model.Employee;
 import com.incetutku.springboottesting.repository.EmployeeRepository;
 import com.incetutku.springboottesting.service.impl.EmployeeServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,5 +92,25 @@ class EmployeeServiceTest {
         // then - verify the output
         assertThat(employeeList).isNotNull();
         assertThat(employeeList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("JUnit test for getAllEmployees method (negative scenario)")
+    @Test
+    void givenEmptyEmployeeList_whenGetAllEmployees_thenReturnEmptyEmployeeList() {
+        // given - precondition or setup
+        Employee employee1 = Employee.builder()
+                .id(2L)
+                .name("Utku")
+                .surname("Ince")
+                .email("ui@mail.com")
+                .build();
+        given(employeeRepository.findAll()).willReturn(Collections.emptyList());
+
+        // when - action or the behaviour that we are going to test
+        List<Employee> employeeList = employeeService.getAllEmployees();
+
+        // then - verify the output
+        assertThat(employeeList).isEmpty();
+        assertThat(employeeList.size()).isEqualTo(0);
     }
 }
