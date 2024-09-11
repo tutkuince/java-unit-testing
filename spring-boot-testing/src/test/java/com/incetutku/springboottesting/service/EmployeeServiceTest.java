@@ -6,34 +6,43 @@ import com.incetutku.springboottesting.service.impl.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
+    @Mock
     private EmployeeRepository employeeRepository;
-    private EmployeeService employeeService;
+    @InjectMocks
+    private EmployeeServiceImpl employeeService;
+
+    private Employee employee;
 
     @BeforeEach
     void setUp() {
-        employeeRepository = mock(EmployeeRepository.class);
-        employeeService = new EmployeeServiceImpl(employeeRepository);
+        /*employeeRepository = mock(EmployeeRepository.class);
+        employeeService = new EmployeeServiceImpl(employeeRepository);*/
+
+        employee = Employee.builder()
+                .id(1L)
+                .name("Tutku")
+                .surname("Ince")
+                .email("ti@mail.com")
+                .build();
     }
 
     @DisplayName("JUnit test for saveEmployee method")
     @Test
     void givenEmployeeObject_whenSaveEmployee_thenReturnEmployeeObject() {
         // given - precondition or setup
-        Employee employee = Employee.builder()
-                .id(1L)
-                .name("Tutku")
-                .surname("Ince")
-                .email("ti@mail.com")
-                .build();
         given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.empty());
         given(employeeRepository.save(employee)).willReturn(employee);
 
