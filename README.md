@@ -26,6 +26,16 @@ Also, @WebMvcTest based tests runs faster as it will load only the specified con
 Sprinb Boot instantiates only the web layer rather thatn the whole application context. <br/>
 In an application with multiple controllers, you can even ask for only one to be instantiated by using, for example, **@WebMvcTest(HomeController.class)**
 
+#### @WebMvcTest vs @SpringBootTest
+Spring Boot provides @WebMvcTest annotation to test Spring MVC controllers. <br/>
+This annotation creates an application context that contains all the beans necessary for testing a Spring web controller.
+<br/>
+Spring Boot provides @SpringBootTest annotation for **Integration testing**. <br/>
+This annotation creates an application context and loads full application context.
+<br/>
+**Unit testing - @WebMvcTest annotation**
+**Integration testing - @SpringBootTest**
+
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved. <br/>
 Basically, we write integration tests for testing a feature which may involve interaction with multiple components. <br/>
