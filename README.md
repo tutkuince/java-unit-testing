@@ -20,6 +20,12 @@ When we want to inject a mocked object into another mocked object, we can use @I
 ##### Syntax:
 - assertThat(ACTUAL, is(EXPECTED));
 
+#### @WebMvcTest Annotation
+SpringBoot provides **@WebMvcTest** annotation to test Spring MVC Controllers. <br/>
+Also, @WebMvcTest based tests runs faster as it will load only the specified controller and its dependencies ony without loading the entire application. <br/>
+Sprinb Boot instantiates only the web layer rather thatn the whole application context. <br/>
+In an application with multiple controllers, you can even ask for only one to be instantiated by using, for example, **@WebMvcTest(HomeController.class)**
+
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved. <br/>
 Basically, we write integration tests for testing a feature which may involve interaction with multiple components. <br/>
