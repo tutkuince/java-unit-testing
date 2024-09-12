@@ -14,6 +14,12 @@ By default, tests annotated with **@DataJpaTest** are transactional and roll bac
 When we want to inject a mocked object into another mocked object, we can use @InjectMocks annotation. <br/>
 @InjectMock creates the mock object of the class and injects the mocks that are marked with the annotations @Mock into
 
+#### Hamcrest Library
+**Hamcrest** is the well-known framework used for unit testing in the Java ecosystem. It's bundled in JUnit and simply put, it uses existing predicates - called matcher classes - for making assertions <br/>
+**Hamcrest is() method**: If we want to verify that the expected value (or object) is equal to the actual value (or object), we have to create our Hamcrest matcher by invoking the is() method of the Matchers class
+##### Syntax:
+- assertThat(ACTUAL, is(EXPECTED));
+
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved. <br/>
 Basically, we write integration tests for testing a feature which may involve interaction with multiple components. <br/>
