@@ -24,7 +24,7 @@ When we want to inject a mocked object into another mocked object, we can use @I
 SpringBoot provides **@WebMvcTest** annotation to test Spring MVC Controllers. <br/>
 Also, @WebMvcTest based tests runs faster as it will load only the specified controller and its dependencies ony without loading the entire application. <br/>
 Sprinb Boot instantiates only the web layer rather thatn the whole application context. <br/>
-In an application with multiple controllers, you can even ask for only one to be instantiated by using, for example, **@WebMvcTest(HomeController.class)**
+In an application with multiple controllers, you can even ask for only one to be instantiated by using, for example, @WebMvcTest(HomeController.class)
 
 #### @WebMvcTest vs @SpringBootTest
 Spring Boot provides @WebMvcTest annotation to test Spring MVC controllers. <br/>
@@ -33,7 +33,7 @@ This annotation creates an application context that contains all the beans neces
 Spring Boot provides @SpringBootTest annotation for **Integration testing**. <br/>
 This annotation creates an application context and loads full application context.
 <br/>
-**Unit testing - @WebMvcTest annotation**
+**Unit testing - @WebMvcTest annotation** <br/>
 **Integration testing - @SpringBootTest**
 
 ### Integration Test
