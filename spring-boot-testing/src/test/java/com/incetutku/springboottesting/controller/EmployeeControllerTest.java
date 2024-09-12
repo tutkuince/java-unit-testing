@@ -20,9 +20,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
 class EmployeeControllerTest {
@@ -51,7 +56,7 @@ class EmployeeControllerTest {
     @Test
     void givenEmployeeObject_whenCreateEmployee_thenReturnSavedEmployee() throws Exception {
         // given - precondition or setup
-        given(employeeService.saveEmployee(ArgumentMatchers.any(Employee.class)))
+        given(employeeService.saveEmployee(any(Employee.class)))
                 .willAnswer((invocationOnMock -> invocationOnMock.getArgument(0)));
 
         // when - action or the behaviour that we are going to test
@@ -60,12 +65,12 @@ class EmployeeControllerTest {
                 .content(objectMapper.writeValueAsString(employee)));
 
         // then - verify the output
-        response.andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(employee.getName())));
-        response.andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.surname", CoreMatchers.is(employee.getSurname())));
-        response.andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(employee.getEmail())));
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", is(employee.getName())));
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.surname", is(employee.getSurname())));
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.email", is(employee.getEmail())));
     }
 
     @DisplayName("Junit test for Get All Employees REST API")
@@ -85,9 +90,9 @@ class EmployeeControllerTest {
         ResultActions response = mockMvc.perform(get("/api/v1/employees"));
 
         // then - verify the output
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(employeeList.size())));
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", is(employeeList.size())));
     }
 
 }
