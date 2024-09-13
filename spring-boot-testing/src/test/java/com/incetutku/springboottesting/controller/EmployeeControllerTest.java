@@ -19,8 +19,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -92,7 +91,7 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.size()", is(employeeList.size())));
     }
 
-    @DisplayName("Junit test for Get Employee By Id REST API")
+    @DisplayName("Junit test for Get Employee By Id REST API - Positive Scenario")
     @Test
     void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
         // given - precondition or setup
@@ -125,6 +124,32 @@ class EmployeeControllerTest {
         // then - verify the output
         response.andExpect(status().isNotFound())
                 .andDo(print());
+    }
+
+    @DisplayName("Junit test for Update Employee REST API - Positive Scenario")
+    @Test
+    void givenUpdatedEmployee_whenUpdateEmployee_thenReturnUpdateEmployeeObject() throws Exception {
+        // given - precondition or setup
+        Employee updatedEmployee = Employee.builder()
+                .name("TUTKU")
+                .surname("INCE")
+                .email("tutku@mail.com")
+                .build();
+        given(employeeService.getEmployeeById(1L)).willReturn(employee);
+        given(employeeService.updateEmployee(any(Employee.class)))
+                .willAnswer((invocationOnMock -> invocationOnMock.getArgument(0)));
+
+        // when - action or the behaviour that we are going to test
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(updatedEmployee.getName())))
+                .andExpect(jsonPath("$.surname", is(updatedEmployee.getSurname())))
+                .andExpect(jsonPath("$.email", is(updatedEmployee.getEmail())));
     }
 
 }
