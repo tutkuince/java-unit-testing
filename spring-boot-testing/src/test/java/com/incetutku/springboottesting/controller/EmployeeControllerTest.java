@@ -19,6 +19,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -172,6 +173,20 @@ class EmployeeControllerTest {
 
         // then - verify the output
         response.andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("Junit test for Delete Employee By Id REST API")
+    @Test
+    void givenEmployeeId_whenDeleteEmployeeById_thenReturn200() throws Exception {
+        // given - precondition or setup
+        willDoNothing().given(employeeService).deleteEmployeeById(1L);
+
+        // when - action or the behaviour that we are going to test
+        ResultActions response = mockMvc.perform(delete("/api/v1/employees/{id}", 1L));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
                 .andDo(print());
     }
 
