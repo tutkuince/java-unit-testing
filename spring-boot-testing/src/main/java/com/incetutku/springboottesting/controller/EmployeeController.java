@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -27,5 +28,14 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) {
+        Employee employeeById = employeeService.getEmployeeById(id);
+        if (Objects.isNull(employeeById)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employeeById);
     }
 }
