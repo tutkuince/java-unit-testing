@@ -50,4 +50,10 @@ public class EmployeeController {
         updatableEmployee.setEmail(employee.getEmail());
         return ResponseEntity.ok(employeeService.updateEmployee(updatableEmployee));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable long id) {
+        employeeService.deleteEmployeeById(id);
+        return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.OK);
+    }
 }
