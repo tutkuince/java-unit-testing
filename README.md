@@ -41,3 +41,10 @@
 #### @SpringBootTest
 - Spring Boot provides @SpringBootTest annotation for Integration testing. This annotation creates an application context and loads full application context. <br/>
 - **@SpringBootTest** will bootstrap the full application context, which means we can **@Autowire** any bean that's picked up by component scanning into our tests.
+- It starts the embedded server, creates a web environment and then enables **@Test** methods to do integration testing.
+
+- By default, **@SpringBootTest** does not start a server. We need to add attribute webEnvironment to further refine how your tests run. It has several options:
+  - **MOCK(Default)**: Loads a web ApplicationContext and provides a mock web environment
+  - **RANDOM_PORT**: Loads a WebServerApplicationCOntext and provides a real web environment. The Embedded server is started and listen on a random port. This is the one should be used for the integration test.
+  - **DEFINED_PORT**: Loads a WebServerApplicationContext and provides a real web environment.
+  - **NONE**: Loads an ApplicationContext by using SpringApplication but does not provide any web environment
