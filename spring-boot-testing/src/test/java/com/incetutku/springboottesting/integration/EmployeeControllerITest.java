@@ -17,6 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,11 +56,11 @@ public class EmployeeControllerITest {
                 .content(objectMapper.writeValueAsString(employee)));
 
         // then - verify the output
-        response.andExpect(status().isCreated())
+        response.andDo(print()).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is(employee.getName())));
-        response.andExpect(status().isCreated())
+        response.andDo(print()).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.surname", is(employee.getSurname())));
-        response.andExpect(status().isCreated())
+        response.andDo(print()).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email", is(employee.getEmail())));
     }
 }
