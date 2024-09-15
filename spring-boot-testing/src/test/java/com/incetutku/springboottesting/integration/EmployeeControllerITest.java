@@ -127,5 +127,27 @@ public class EmployeeControllerITest {
                 .andDo(print());
     }
 
+    @DisplayName("Integration test for Update Employee REST API - Positive Scenario")
+    @Test
+    void givenUpdatedEmployee_whenUpdateEmployee_thenReturnUpdateEmployeeObject() throws Exception {
+        // given - precondition or setup
+        Employee updatedEmployee = Employee.builder()
+                .name("TUTKU")
+                .surname("INCE")
+                .email("tutku@mail.com")
+                .build();
+        employeeRepository.save(employee);
 
+        // when - action or the behaviour that we are going to test
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(updatedEmployee.getName())))
+                .andExpect(jsonPath("$.surname", is(updatedEmployee.getSurname())))
+                .andExpect(jsonPath("$.email", is(updatedEmployee.getEmail())));
+    }
 }
