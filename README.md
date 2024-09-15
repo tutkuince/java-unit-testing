@@ -39,3 +39,7 @@ This annotation creates an application context and loads full application contex
 ### Integration Test
 Integration tests focus on integrating different layers of the application. That also means no mocking is involved. <br/>
 Basically, we write integration tests for testing a feature which may involve interaction with multiple components. <br/>
+
+#### @SpringBootTest
+Spring Boot provides @SpringBootTest annotation for Integration testing. This annotation creates an application context and loads full application context. <br/>
+**@SpringBootTest** will bootstrap the full application context, which means we can **@Autowire** any bean that's picked up by component scanning into our tests.
