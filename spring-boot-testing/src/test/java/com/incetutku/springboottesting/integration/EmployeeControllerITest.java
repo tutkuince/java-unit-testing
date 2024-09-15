@@ -113,27 +113,19 @@ public class EmployeeControllerITest {
                 .andExpect(jsonPath("$.email", is(employee.getEmail())));
     }
 
-    @DisplayName("Integration test for Update Employee REST API - Positive Scenario")
+    @DisplayName("Junit test for Get Employee By Id REST API - Negative Scenario")
     @Test
-    void givenUpdatedEmployee_whenUpdateEmployee_thenReturnUpdateEmployeeObject() throws Exception {
+    void givenInvalidEmployeeId_whenGetEmployeeById_thenReturnEmpty() throws Exception {
         // given - precondition or setup
-        Employee updatedEmployee = Employee.builder()
-                .name("TUTKU")
-                .surname("INCE")
-                .email("tutku@mail.com")
-                .build();
         employeeRepository.save(employee);
 
         // when - action or the behaviour that we are going to test
-        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updatedEmployee)));
+        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", 0L));
 
         // then - verify the output
-        response.andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.name", is(updatedEmployee.getName())))
-                .andExpect(jsonPath("$.surname", is(updatedEmployee.getSurname())))
-                .andExpect(jsonPath("$.email", is(updatedEmployee.getEmail())));
+        response.andExpect(status().isNotFound())
+                .andDo(print());
     }
+
+
 }
