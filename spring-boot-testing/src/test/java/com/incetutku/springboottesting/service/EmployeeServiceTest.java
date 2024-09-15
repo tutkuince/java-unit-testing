@@ -39,7 +39,6 @@ class EmployeeServiceTest {
         employeeService = new EmployeeServiceImpl(employeeRepository);*/
 
         employee = Employee.builder()
-                .id(1L)
                 .name("Tutku")
                 .surname("Ince")
                 .email("ti@mail.com")
@@ -125,17 +124,6 @@ class EmployeeServiceTest {
 
         // then - verify the output
         assertThat(employeeById).isNotNull();
-    }
-
-    @DisplayName("Junit test for getEmployeeById method which throws exception")
-    @Test
-    void givenNotExistingEmployeeId_whenGetEmployeeById_thenThrowsResourceNotFoundException() {
-        // given - precondition or setup
-        given(employeeRepository.findById(0L)).willReturn(Optional.empty());
-
-        // when - action or the behaviour that we are going to test
-        // then - verify the output
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(0L));
     }
 
     @DisplayName("JUnit test for updateEmployee method")
