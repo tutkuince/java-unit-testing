@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,7 +40,6 @@ public class EmployeeControllerITest {
     void setUp() {
         employeeRepository.deleteAll();
         employee = Employee.builder()
-                .id(1L)
                 .name("Tutku")
                 .surname("Ince")
                 .email("ti@mail.com")
@@ -95,11 +92,10 @@ public class EmployeeControllerITest {
     @Test
     void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
         // given - precondition or setup
-        long employeeId = 1L;
-        employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
 
         // when - action or the behaviour that we are going to test
-        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", employeeId));
+        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", savedEmployee.getId()));
 
         // then - verify the output
         response.andExpect(status().isOk())
@@ -136,10 +132,10 @@ public class EmployeeControllerITest {
                 .surname("INCE")
                 .email("tutku@mail.com")
                 .build();
-        employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
 
         // when - action or the behaviour that we are going to test
-        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", 1L)
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", savedEmployee.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedEmployee)));
 
@@ -169,6 +165,20 @@ public class EmployeeControllerITest {
 
         // then - verify the output
         response.andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @DisplayName("Junit test for Delete Employee By Id REST API")
+    @Test
+    void givenEmployeeId_whenDeleteEmployeeById_thenReturn200() throws Exception {
+        // given - precondition or setup
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        // when - action or the behaviour that we are going to test
+        ResultActions response = mockMvc.perform(delete("/api/v1/employees/{id}", savedEmployee.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
                 .andDo(print());
     }
 }
