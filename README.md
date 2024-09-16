@@ -48,3 +48,9 @@
   - **RANDOM_PORT**: Loads a WebServerApplicationCOntext and provides a real web environment. The Embedded server is started and listen on a random port. This is the one should be used for the integration test.
   - **DEFINED_PORT**: Loads a WebServerApplicationContext and provides a real web environment.
   - **NONE**: Loads an ApplicationContext by using SpringApplication but does not provide any web environment
+
+### Test Containers
+- Testcontainers is a Java library that supports JUnit tests, providing lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a Docker container
+- Using Testcontainers is fairly easy and it gives us the opportunity to create integration tests without the need of pre-installed components.
+- Using Testcontainers, we would always start with a clean database and our integration tests could run on any machine.
+- Testcontainer allows us to use Docker containers within our tests. As a result, we can write self-contained integration tests that depend on external resources.
