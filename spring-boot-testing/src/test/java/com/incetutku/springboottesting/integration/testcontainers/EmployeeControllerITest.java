@@ -3,23 +3,19 @@ package com.incetutku.springboottesting.integration.testcontainers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.incetutku.springboottesting.model.Employee;
 import com.incetutku.springboottesting.repository.EmployeeRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,11 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
-public class EmployeeControllerITest {
-
-    @Container
-    private static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest");
+public class EmployeeControllerITest extends AbstractionBaseTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,23 +34,6 @@ public class EmployeeControllerITest {
     private ObjectMapper objectMapper;
 
     private Employee employee;
-
-    @DynamicPropertySource
-    public static void dynamicPropertySource(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        postgreSQLContainer.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgreSQLContainer.stop();
-    }
 
     @BeforeEach
     void setUp() {
@@ -70,22 +45,11 @@ public class EmployeeControllerITest {
                 .build();
     }
 
-    @DisplayName("Description")
-    @Test
-    void isTestContainerRunning() {
-        assertThat(postgreSQLContainer.isRunning()).isTrue();
-    }
-
     @DisplayName("Integration test for create employee REST API")
     @Test
     void givenEmployeeObject_whenCreateEmployee_thenReturnSavedEmployee() throws Exception {
         // given - precondition or setup
         // employee
-        System.out.println(postgreSQLContainer.getDatabaseName());  // test
-        System.out.println(postgreSQLContainer.getUsername());      // test
-        System.out.println(postgreSQLContainer.getPassword());      // test
-        System.out.println(postgreSQLContainer.getJdbcUrl());      // test
-
 
         // when - action or the behaviour that we are going to test
         ResultActions response = mockMvc.perform(post("/api/v1/employees")
