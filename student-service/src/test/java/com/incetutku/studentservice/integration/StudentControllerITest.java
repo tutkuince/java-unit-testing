@@ -1,6 +1,5 @@
 package com.incetutku.studentservice.integration;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.incetutku.studentservice.model.Student;
 import com.incetutku.studentservice.repository.StudentRepository;
